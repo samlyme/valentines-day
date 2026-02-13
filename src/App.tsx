@@ -3,6 +3,15 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import Lenis from 'lenis';
 import './index.css';
 
+// Import images
+import img1 from './images/1.jpeg';
+import img2 from './images/2.jpeg';
+import img3 from './images/3.png';
+import img5 from './images/5.png';
+import img6 from './images/6.png';
+import img7 from './images/7.png';
+import img8 from './images/01K9KDFV28KDTKVWYPW2VXW586-low-res-branded-.png';
+
 interface MediaItem {
   id: number;
   src: string;
@@ -12,14 +21,14 @@ interface MediaItem {
 }
 
 const mediaItems: MediaItem[] = [
-  { id: 1, src: '/images/1.jpeg', type: 'image', title: 'where it began...', animationStyle: 'fade' },
-  { id: 2, src: '/images/2.jpeg', type: 'image', title: 'spookie', animationStyle: 'flip' },
-  { id: 3, src: '/images/3.png', type: 'image', title: 'even spookier (calc)', animationStyle: 'scale' },
+  { id: 1, src: img1, type: 'image', title: 'where it began...', animationStyle: 'fade' },
+  { id: 2, src: img2, type: 'image', title: 'spookie', animationStyle: 'flip' },
+  { id: 3, src: img3, type: 'image', title: 'even spookier (calc)', animationStyle: 'scale' },
   { id: 4, src: '/images/4.mov', type: 'video', title: 'i realized i should take more photos', animationStyle: 'blur' },
-  { id: 5, src: '/images/5.png', type: 'image', title: 'whose that cutie', animationStyle: 'rotate' },
-  { id: 6, src: '/images/6.png', type: 'image', title: 'brug', animationStyle: 'elastic' },
-  { id: 7, src: '/images/7.png', type: 'image', title: 'cutie', animationStyle: 'bounce' },
-  { id: 8, src: '/images/01K9KDFV28KDTKVWYPW2VXW586-low-res-branded-.png', type: 'image', title: 'will you be my valentine?', animationStyle: 'slide' },
+  { id: 5, src: img5, type: 'image', title: 'whose that cutie', animationStyle: 'rotate' },
+  { id: 6, src: img6, type: 'image', title: 'brug', animationStyle: 'elastic' },
+  { id: 7, src: img7, type: 'image', title: 'cutie', animationStyle: 'bounce' },
+  { id: 8, src: img8, type: 'image', title: 'will you be my valentine?', animationStyle: 'slide' },
 ];
 
 // Unique animation configurations for each slide
