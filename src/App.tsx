@@ -687,46 +687,6 @@ function App() {
         </motion.span>
       </motion.div>
 
-      {/* Scroll hint with unique bounce */}
-      <motion.div 
-        className="scroll-hint"
-        initial={{ opacity: 0 }}
-        animate={{ 
-          opacity: currentIndex === 0 ? 1 : 0,
-          y: currentIndex === 0 ? [0, 10, 0] : 0,
-        }}
-        transition={{ 
-          opacity: { duration: 0.5 },
-          y: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
-        }}
-      >
-        <motion.div 
-          className="scroll-arrow"
-          animate={{ 
-            y: [0, 15, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{ 
-            duration: 1.8, 
-            repeat: Infinity, 
-            ease: [0.68, -0.55, 0.265, 1.55]
-          }}
-        >
-          <motion.span animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}></motion.span>
-          <motion.span animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}></motion.span>
-          <motion.span animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}></motion.span>
-        </motion.div>
-        <motion.p
-          animate={{ 
-            opacity: [0.4, 1, 0.4],
-            letterSpacing: ['3px', '5px', '3px'],
-          }}
-          transition={{ duration: 3, repeat: Infinity }}
-        >
-          Scroll to see our memories ❤️
-        </motion.p>
-      </motion.div>
-
       {/* Navigation arrows with unique hover effects */}
       <motion.button 
         className="nav-arrow nav-arrow-up"
