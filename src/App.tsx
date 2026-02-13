@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import Lenis from 'lenis';
 import './index.css';
+import { Loading } from './Loading';
 
 // Import images
 import img1 from './images/1.jpeg';
@@ -115,9 +116,90 @@ function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('down');
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
+
+  // Preload all media
+  useEffect(() => {
+    const preloadMedia = async () => {
+      const totalItems = mediaItems.length;
+      let loadedCount = 0;
+
+      const loadPromises = mediaItems.map((item) => {
+        return new Promise<void>((resolve) => {
+          if (item.type === 'video') {
+            // For videos, we just need to check if the file is accessible
+            // Video loading is handled by the browser when played
+            const video = document.createElement('video');
+            video.preload = 'metadata';
+            
+            const handleLoad = () => {
+              loadedCount++;
+              setLoadingProgress((loadedCount / totalItems) * 100);
+              resolve();
+            };
+
+            video.addEventListener('loadedmetadata', handleLoad);
+            video.addEventListener('error', () => {
+              // Even on error, count as loaded to not block
+              loadedCount++;
+              setLoadingProgress((loadedCount / totalItems) * 100);
+              resolve();
+            });
+            
+            video.src = item.src;
+            // Timeout fallback
+            setTimeout(() => {
+              if (loadedCount < totalItems) {
+                loadedCount++;
+                setLoadingProgress((loadedCount / totalItems) * 100);
+                resolve();
+              }
+            }, 2000);
+          } else {
+            // For images, preload them
+            const img = new Image();
+            
+            const handleLoad = () => {
+              loadedCount++;
+              setLoadingProgress((loadedCount / totalItems) * 100);
+              resolve();
+            };
+
+            img.addEventListener('load', handleLoad);
+            img.addEventListener('error', () => {
+              // Even on error, count as loaded to not block
+              loadedCount++;
+              setLoadingProgress((loadedCount / totalItems) * 100);
+              resolve();
+            });
+            
+            img.src = item.src;
+            // Timeout fallback
+            setTimeout(() => {
+              if (loadedCount < totalItems) {
+                loadedCount++;
+                setLoadingProgress((loadedCount / totalItems) * 100);
+                resolve();
+              }
+            }, 2000);
+          }
+        });
+      });
+
+      await Promise.all(loadPromises);
+      
+      // Small delay to ensure smooth transition
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    };
+
+    preloadMedia();
+  }, []);
 
   // Motion values for smooth animations
   const scrollProgress = useMotionValue(0);
@@ -305,7 +387,18 @@ function App() {
   };
 
   return (
-    <div className="app" ref={containerRef}>
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && <Loading key="loading" progress={loadingProgress} />}
+      </AnimatePresence>
+      
+      <motion.div 
+        className="app" 
+        ref={containerRef}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoading ? 0 : 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
       {/* Rotating gradient background - Valentine's theme */}
       <motion.div 
         className="background-gradient"
@@ -745,7 +838,8 @@ function App() {
       >
         ↓
       </motion.button>
-    </div>
+    </motion.div>
+    </>
   );
 }
 

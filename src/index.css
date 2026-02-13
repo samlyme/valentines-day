@@ -507,3 +507,164 @@ body {
     font-size: 1.5rem !important;
   }
 }
+
+/* Loading Screen Styles */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.loading-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a0f1a 0%, #2d1b2d 50%, #1a0f1a 100%);
+}
+
+.loading-background::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(255, 105, 180, 0.3) 0deg,
+    rgba(220, 20, 60, 0.2) 120deg,
+    rgba(255, 20, 147, 0.15) 240deg,
+    rgba(255, 105, 180, 0.3) 360deg
+  );
+  animation: rotate-gradient 20s linear infinite;
+}
+
+@keyframes rotate-gradient {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.loading-heart {
+  position: absolute;
+  opacity: 0;
+}
+
+.loading-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.loading-heart-icon {
+  font-size: 80px;
+  filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.6));
+}
+
+.loading-text {
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+}
+
+.loading-progress-container {
+  width: 280px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #ff69b4 0%, #ff1744 50%, #ff69b4 100%);
+  background-size: 200% 100%;
+  border-radius: 2px;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.loading-percentage {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Courier New', 'Monaco', 'Consolas', monospace;
+  letter-spacing: 2px;
+}
+
+.loading-decorations {
+  position: absolute;
+  inset: 20px;
+  pointer-events: none;
+}
+
+.loading-corner {
+  position: absolute;
+  font-size: 24px;
+  opacity: 0.6;
+}
+
+.loading-corner.top-left {
+  top: 0;
+  left: 0;
+}
+
+.loading-corner.top-right {
+  top: 0;
+  right: 0;
+}
+
+.loading-corner.bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.loading-corner.bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+/* Loading screen responsive */
+@media (max-width: 768px) {
+  .loading-heart-icon {
+    font-size: 60px;
+  }
+  
+  .loading-text {
+    font-size: 1.2rem;
+  }
+  
+  .loading-progress-container {
+    width: 220px;
+  }
+  
+  .loading-corner {
+    font-size: 18px;
+  }
+}
